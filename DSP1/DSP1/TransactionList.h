@@ -2,13 +2,15 @@
 #include "Transaction.h"
 #include <string>
 
+using namespace std;
+
 class TransactionList {
 public:
     TransactionList();
     ~TransactionList();
 
     // append a transaction (creates a Transaction node)
-    void append(Transaction::Type type, double amount, const std::string& timestamp);
+    void append(Transaction::Type type, double amount, const string& timestamp);
 
     // print all transactions in order
     void printAll() const;

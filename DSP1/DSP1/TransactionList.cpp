@@ -2,11 +2,13 @@
 #include <iostream>
 #include <iomanip>
 
+using namespace std;
+
 TransactionList::TransactionList() : head(nullptr), tail(nullptr) {}
 
 TransactionList::~TransactionList() { clear(); }
 
-void TransactionList::append(Transaction::Type type, double amount, const std::string& timestamp) {
+void TransactionList::append(Transaction::Type type, double amount, const string& timestamp) {
     Transaction* node = new Transaction(type, amount, timestamp);
     if (!head) {
         head = tail = node;
@@ -19,16 +21,16 @@ void TransactionList::append(Transaction::Type type, double amount, const std::s
 
 void TransactionList::printAll() const {
     if (!head) {
-        std::cout << "  No transactions yet.\n";
+        cout << "  No transactions yet.\n";
         return;
     }
     int idx = 1;
     Transaction* cur = head;
     while (cur) {
-        std::cout << std::setw(2) << idx++ << ". ";
-        if (cur->type == Transaction::DEPOSIT) std::cout << "Deposited ";
+        cout << setw(2) << idx++ << ". ";
+        if (cur->type == Transaction::DEPOSIT) cout << "Deposited ";
         else std::cout << "Withdrawn ";
-        std::cout << std::fixed << std::setprecision(2) << cur->amount
+        cout << fixed << setprecision(2) << cur->amount
             << " on " << cur->timestamp << "\n";
         cur = cur->next;
     }

@@ -2,17 +2,19 @@
 #include <string>
 #include "TransactionList.h"
 
+using namespace std;
+
 class Account {
 public:
-    Account(int accNo, const std::string& name, double initialBalance);
+    Account(int accNo, const string& name, double initialBalance);
     ~Account();
 
     int getAccNo() const;
-    const std::string& getName() const;
+    const string& getName() const;
     double getBalance() const;
 
-    void deposit(double amount, const std::string& timestamp);
-    bool withdraw(double amount, const std::string& timestamp);
+    void deposit(double amount, const string& timestamp);
+    bool withdraw(double amount, const string& timestamp);
 
     // access transaction history
     void printHistory() const;
@@ -24,7 +26,7 @@ public:
 
 private:
     int accNo;
-    std::string name;
+    string name;
     double balance;
     TransactionList* history;
 };

@@ -1,5 +1,7 @@
 #include "Transaction.h"
 
-Transaction::Transaction(Type t, double amt, const std::string& timestamp)
+using namespace std;
+
+Transaction::Transaction(Type t, double amt, const string& timestamp)
     : type(t), amount(amt), timestamp(timestamp), next(nullptr) {
 }

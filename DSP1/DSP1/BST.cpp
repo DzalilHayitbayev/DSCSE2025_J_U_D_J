@@ -2,6 +2,8 @@
 #include <iostream>
 #include <iomanip>
 
+using namespace std;
+
 BST::BST() : root(nullptr) {}
 BST::~BST() { destroyImpl(root); }
 
@@ -43,8 +45,8 @@ void BST::inOrderPrint() const { inOrderImpl(root); }
 void BST::inOrderImpl(Account* node) const {
     if (!node) return;
     inOrderImpl(node->left);
-    std::cout << "  " << node->getAccNo() << " | " << node->getName()
-        << " | Balance: " << std::fixed << std::setprecision(2) << node->getBalance() << "\n";
+    cout << "  " << node->getAccNo() << " | " << node->getName()
+        << " | Balance: " << fixed << setprecision(2) << node->getBalance() << "\n";
     inOrderImpl(node->right);
 }
 

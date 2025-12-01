@@ -5,9 +5,11 @@
 #include <iomanip>
 #include "Account.h"
 
-std::string Bank::currentDateTime() {
-    auto now = std::chrono::system_clock::now();
-    time_t t = std::chrono::system_clock::to_time_t(now);
+using namespace std;
+
+string Bank::currentDateTime() {
+    auto now = chrono::system_clock::now();
+    time_t t = chrono::system_clock::to_time_t(now);
     tm tm{};
 #if defined(_WIN32) || defined(_WIN64)
     localtime_s(&tm, &t);
@@ -15,14 +17,14 @@ std::string Bank::currentDateTime() {
     localtime_r(&t, &tm);
 #endif
     char buf[64];
-    std::strftime(buf, sizeof(buf), "%d-%m-%Y %I:%M:%S %p", &tm);
+    strftime(buf, sizeof(buf), "%d-%m-%Y %I:%M:%S %p", &tm);
     return std::string(buf);
 }
 
 Bank::Bank() {}
 Bank::~Bank() {}
 
-bool Bank::createAccount(int accNo, const std::string& name, double initialBalance, const std::string& timestamp) {
+bool Bank::createAccount(int accNo, const string& name, double initialBalance, const string& timestamp) {
     Account* acc = new Account(accNo, name, initialBalance);
     bool inserted = accounts.insert(acc);
     if (!inserted) {
@@ -37,14 +39,14 @@ bool Bank::createAccount(int accNo, const std::string& name, double initialBalan
     return true;
 }
 
-bool Bank::directDeposit(int accNo, double amount, const std::string& timestamp) {
+bool Bank::directDeposit(int accNo, double amount, const string& timestamp) {
     Account* a = accounts.find(accNo);
     if (!a || amount <= 0.0) return false;
     a->deposit(amount, timestamp);
     return true;
 }
 
-bool Bank::directWithdraw(int accNo, double amount, const std::string& timestamp) {
+bool Bank::directWithdraw(int accNo, double amount, const string& timestamp) {
     Account* a = accounts.find(accNo);
     if (!a || amount <= 0.0) return false;
     return a->withdraw(amount, timestamp);
@@ -64,7 +66,7 @@ bool Bank::processOnePending() {
     Account* a = accounts.find(p.accNo);
     std::string ts = currentDateTime();
     if (!a) {
-        std::cout << "Pending tx failed: account " << p.accNo << " not found. Skipping.\n";
+        cout << "Pending tx failed: account " << p.accNo << " not found. Skipping.\n";
         return true; // we consumed it
     }
     if (p.type == Transaction::DEPOSIT) {
@@ -72,7 +74,7 @@ bool Bank::processOnePending() {
     }
     else {
         if (!a->withdraw(p.amount, ts)) {
-            std::cout << "Pending tx: insufficient funds for account " << p.accNo << ". Skipping.\n";
+            cout << "Pending tx: insufficient funds for account " << p.accNo << ". Skipping.\n";
         }
     }
     return true;
@@ -87,25 +89,25 @@ int Bank::processPendingAll() {
 void Bank::showTransactionHistory(int accNo) const {
     Account* a = accounts.find(accNo);
     if (!a) {
-        std::cout << "Account not found.\n";
+        cout << "Account not found.\n";
         return;
     }
-    std::cout << "Transaction history for " << a->getAccNo() << " (" << a->getName() << ")\n";
+    cout << "Transaction history for " << a->getAccNo() << " (" << a->getName() << ")\n";
     a->printHistory();
 }
 
 void Bank::showAccountInfo(int accNo) const {
     Account* a = accounts.find(accNo);
     if (!a) {
-        std::cout << "Account not found.\n";
+        cout << "Account not found.\n";
         return;
     }
-    std::cout << "Account: " << a->getAccNo() << "\n  Name: " << a->getName()
-        << "\n  Balance: " << std::fixed << std::setprecision(2) << a->getBalance()
+    cout << "Account: " << a->getAccNo() << "\n  Name: " << a->getName()
+        << "\n  Balance: " << fixed << setprecision(2) << a->getBalance()
         << "\n  Total transactions: " << a->transactionCount() << "\n";
 }
 
 void Bank::listAllAccounts() const {
-    std::cout << "Accounts (in-order):\n";
+    cout << "Accounts (in-order):\n";
     accounts.inOrderPrint();
 }

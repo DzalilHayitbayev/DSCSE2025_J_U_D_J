@@ -3,17 +3,19 @@
 #include "PendingQueue.h"
 #include <string>
 
+using namespace std;
+
 class Bank {
 public:
     Bank();
     ~Bank();
 
     // create account; returns true if success, false if duplicate
-    bool createAccount(int accNo, const std::string& name, double initialBalance, const std::string& timestamp);
+    bool createAccount(int accNo, const string& name, double initialBalance, const string& timestamp);
 
     // direct operations (perform immediately)
-    bool directDeposit(int accNo, double amount, const std::string& timestamp);
-    bool directWithdraw(int accNo, double amount, const std::string& timestamp);
+    bool directDeposit(int accNo, double amount, const string& timestamp);
+    bool directWithdraw(int accNo, double amount, const string& timestamp);
 
     // queue operations (enqueue only)
     void enqueueDeposit(int accNo, double amount);
@@ -29,7 +31,7 @@ public:
     void listAllAccounts() const;
 
     // utility to get current timestamp string
-    static std::string currentDateTime();
+    static string currentDateTime();
 
 private:
     BST accounts;
